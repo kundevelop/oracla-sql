@@ -11,7 +11,7 @@ public class DBHelper {
 	public static Connection getConnection() throws Exception{
 		// 오라클 DB 접근 클래스 로딩
 		Class.forName("oracle.jdbc.driver.OracleDriver");
-		System.out.println("드라이버 로딩 성공");
+		//System.out.println("드라이버 로딩 성공");
 		
 		Connection conn = null;
 		// TNS_ADMIN 매개값은 전자지갑의 위치

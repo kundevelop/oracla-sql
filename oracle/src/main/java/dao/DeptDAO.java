@@ -9,6 +9,8 @@ import java.util.HashMap;
 import vo.Dept;
 
 public class DeptDAO {
+	
+	
 	// Map 사용
 	public static ArrayList<HashMap<String, Object>> selectDeptOnOffList() 
 														throws Exception {
