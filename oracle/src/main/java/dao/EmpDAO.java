@@ -10,14 +10,68 @@ import oracle.jdbc.proxy.annotation.Pre;
 import vo.Emp;
 
 public class EmpDAO {
+	// q004WhereIn.jsp
+	public static ArrayList<Emp> selectEmpListByGrade 
+				(ArrayList<Integer> ckList) throws Exception {
+		ArrayList<Emp> list = new ArrayList<>();
+		Connection conn = DBHelper.getConnection();
+		String sql = "SELECT ename, grade"
+				+ " FROM emp"
+				+ " WHERE grade IN ";
+		PreparedStatement stmt = null;
+		if(ckList.size() == 1) {
+			sql = sql + "(?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ckList.get(0));
+		} else if (ckList.size() == 2) {
+			sql = sql + "(?,?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ckList.get(0));
+			stmt.setInt(2, ckList.get(1));
+		} else if (ckList.size() == 3) {
+			sql = sql + "(?,?,?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ckList.get(0));
+			stmt.setInt(2, ckList.get(1));
+			stmt.setInt(3, ckList.get(2));
+		} else if (ckList.size() == 4) {
+			sql = sql + "(?,?,?,?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ckList.get(0));
+			stmt.setInt(2, ckList.get(1));
+			stmt.setInt(3, ckList.get(2));
+			stmt.setInt(4, ckList.get(3));
+		} else if (ckList.size() == 5) {
+			sql = sql + "(?,?,?,?,?)";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ckList.get(0));
+			stmt.setInt(2, ckList.get(1));
+			stmt.setInt(3, ckList.get(2));
+			stmt.setInt(4, ckList.get(3));
+			stmt.setInt(5, ckList.get(4));
+			
+		}
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Emp e = new Emp();
+			e.setEname(rs.getString("ename"));
+			e.setGrade(rs.getInt("grade"));
+			list.add(e);
+			
+		}
+		return list;
+	}
+
+	
+	
 	//q003Case.jsp
 	public static ArrayList<HashMap<String,String>> selectJobCaseList() throws Exception {
 		ArrayList<HashMap<String,String>> list = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = 
-		/*  SELECT ename,
+		/*  
+			SELECT ename,
 	        job,
 	        CASE
 	        WHEN job = 'PRESIDENT' Then '빨강'
@@ -32,8 +86,34 @@ public class EmpDAO {
 	        WHEN color = '노랑' THEN 3
 	        WHEN color = '초록' THEN 4
 	        ELSE 5 END) ASC;
-		 */
-				
+		*/
+		
+		String sql = "SELECT ename"
+				+ "	job,"
+				+ " CASE"
+				+ " WHEN job = 'PRESIDENT' Then '빨강'"
+				+ " WHEN job = 'MANAGER' THEN '주황'"
+				+ " WHEN job = 'ANALYST' THEN '노랑'"
+				+ " WHEN job = 'CLERK' THEN '초록'"
+				+ " ELSE '파랑' END color"
+				+ " FROM emp"
+				+ " ORDER BY (CASE"
+				+ " WHEN color = '빨강' THEN 1"
+				+ " WHEN color = '주황' THEN 2"
+				+ " WHEN color = '노랑' THEN 3"
+				+ " WHEN color = '초록' THEN 4"
+				+ " ELSE 5 END) ASC";
+		
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				HashMap<String, String> m = new HashMap<>();
+				m.put("ename", rs.getString("ename"));
+				m.put("job", rs.getString("job"));
+				m.put("color", rs.getString("color"));
+			}
+			
+			conn.close();
 			return list;
 		}
 	
@@ -59,7 +139,7 @@ public class EmpDAO {
 	}
 	
 		conn.close();
-		return list; // 구현 후 수정
+		return list; 
 	}
 
 	

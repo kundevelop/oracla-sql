@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@ page import = "dao.*" %>
+<%@ page import = "java.util.*" %>
 <!-- Model -->
+<%
+	ArrayList<HashMap<String, String>> list = EmpDAO.selectJobCaseList();
+	
+%>	
 
 
 <!-- View --> 
@@ -11,6 +17,18 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<h1>caseÈ°¿ë</h1>
+	<%
+		for(HashMap<String, String> m : list) {
+	%>
+		<%=m.get("ename")%>
+		<%=m.get("job")%>
+		<%=m.get("color")%>
+	
+	<%
+
+		}
+	%>
 
 </body>
 </html>
