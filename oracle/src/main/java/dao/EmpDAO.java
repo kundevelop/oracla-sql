@@ -10,6 +10,41 @@ import oracle.jdbc.proxy.annotation.Pre;
 import vo.Emp;
 
 public class EmpDAO {
+	// q005OrderBy.jsp
+	public static ArrayList<Emp> selectEmpListSort(
+			String col, String sort) throws Exception {
+		
+		
+		// 매개값 디버깅
+		System.out.println(col + " <--EmpDAO.selectEmpListSort param col");
+		System.out.println(sort + " <--EmpDAO.selectEmpListSort param sort");
+		
+		ArrayList<Emp> list = new ArrayList<>();
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "SELECT empno, ename"
+				+ " FROM emp";
+		
+		if(col !=null && sort != null) {
+			sql = sql + " ORDER BY "+col+" "+sort;
+		}
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		System.out.println(stmt);
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Emp e = new Emp();
+			e.setEmpNo(rs.getInt("empno"));
+			e.setEname(rs.getString("ename"));
+			list.add(e);
+		}
+		
+		conn.close();
+		return list;	
+	}
+	
+	
 	// q004WhereIn.jsp
 	public static ArrayList<Emp> selectEmpListByGrade 
 				(ArrayList<Integer> ckList) throws Exception {
@@ -59,6 +94,7 @@ public class EmpDAO {
 			list.add(e);
 			
 		}
+		conn.close();
 		return list;
 	}
 
@@ -187,6 +223,7 @@ public class EmpDAO {
 			m.put("dname", rs.getString("dname"));
 			list.add(m);
 		}
+		conn.close();
 		return list;
 	}
 	
@@ -207,7 +244,7 @@ public class EmpDAO {
 			e.sal = rs.getDouble("sal");
 			list.add(e);
 		}
-		
+		conn.close();
 		return list;
 	}
 }

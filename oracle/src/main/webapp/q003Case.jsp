@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
 <!-- Model -->
@@ -17,7 +17,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>caseÈ°¿ë</h1>
+	<h1>caseí™œìš©</h1>
 	<%
 		for(HashMap<String, String> m : list) {
 	%>
